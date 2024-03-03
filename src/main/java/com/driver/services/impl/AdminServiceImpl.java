@@ -45,6 +45,7 @@ public class AdminServiceImpl implements AdminService {
         serviceProvider.setCountryList(new ArrayList<>());
         admin.getServiceProviders().add(serviceProvider);
         serviceProviderRepository1.save(serviceProvider);
+        adminRepository1.save(admin);
         return admin;
     }
 
@@ -65,6 +66,7 @@ public class AdminServiceImpl implements AdminService {
                 country.setCode(name.toCode());
                 serviceProvider.getCountryList().add(country);
                 countryRepository1.save(country);
+                serviceProviderRepository1.save(serviceProvider);
                 return serviceProvider;
             }
         }
