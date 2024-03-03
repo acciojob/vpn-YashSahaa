@@ -53,6 +53,7 @@ public class ConnectionServiceImpl implements ConnectionService {
         connection.setServiceProvider(serviceProviderans);
         connectionRepository2.save(connection);
         user.getConnectionList().add(connection);
+        userRepository2.save(user);
         return user;
     }
     @Override
@@ -65,6 +66,7 @@ public class ConnectionServiceImpl implements ConnectionService {
         for(Connection connection : connections){
             connectionRepository2.deleteById(connection.getId());
         }
+        userRepository2.save(user);
         return user;
     }
     @Override
