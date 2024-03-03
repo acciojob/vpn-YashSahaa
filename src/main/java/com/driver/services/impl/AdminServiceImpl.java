@@ -32,44 +32,58 @@ public class AdminServiceImpl implements AdminService {
         admin.setServiceProviders(new ArrayList<>());
         adminRepository1.save(admin);
         return admin;
+
     }
 
     @Override
     public Admin addServiceProvider(int adminId, String providerName) {
         Admin admin = adminRepository1.findById(adminId).get();
         ServiceProvider serviceProvider = new ServiceProvider();
+
         serviceProvider.setAdmin(admin);
         serviceProvider.setName(providerName);
-        serviceProvider.setUsers(new ArrayList<>());
-        serviceProvider.setConnectionList(new ArrayList<>());
-        serviceProvider.setCountryList(new ArrayList<>());
+
         admin.getServiceProviders().add(serviceProvider);
-        serviceProviderRepository1.save(serviceProvider);
         adminRepository1.save(admin);
+
         return admin;
+
     }
 
     @Override
-    public ServiceProvider addCountry(int serviceProviderId, String countryName) throws Exception{
-        ServiceProvider serviceProvider = serviceProviderRepository1.findById(serviceProviderId).get();
-        CountryName Name = null;
-        try {
-            Name = CountryName.valueOf(countryName);
-        }catch (Exception e){
-            throw new Exception("Country not found");
-        }
-        for(CountryName name :CountryName.values()){
-            if(Name.equals(name)){
-                Country country = new Country();
-                country.setCountryName(Name);
-                country.setServiceProvider(serviceProvider);
-                country.setCode(name.toCode());
-                serviceProvider.getCountryList().add(country);
-                countryRepository1.save(country);
-                serviceProviderRepository1.save(serviceProvider);
-                return serviceProvider;
+    public ServiceProvider addCountry(int serviceProviderId, String countryName) throws Exception {
+        if(countryName.equalsIgnoreCase("ind") || countryName.equalsIgnoreCase("usa") || countryName.equalsIgnoreCase("aus")||countryName.equalsIgnoreCase("jpn")||countryName.equalsIgnoreCase("chi")){
+
+            Country country = new Country();
+            ServiceProvider serviceProvider = serviceProviderRepository1.findById(serviceProviderId).get();
+
+            if (countryName.equalsIgnoreCase("ind")){
+                country.setCountryName(CountryName.IND);
+                country.setCode(CountryName.IND.toCode());
             }
+            if (countryName.equalsIgnoreCase("usa")){
+                country.setCountryName(CountryName.USA);
+                country.setCode(CountryName.USA.toCode());
+            }
+            if (countryName.equalsIgnoreCase("aus")){
+                country.setCountryName(CountryName.AUS);
+                country.setCode(CountryName.AUS.toCode());
+            }
+            if (countryName.equalsIgnoreCase("jpn")){
+                country.setCountryName(CountryName.JPN);
+                country.setCode(CountryName.JPN.toCode());
+            }
+            if (countryName.equalsIgnoreCase("chi")){
+                country.setCountryName(CountryName.CHI);
+                country.setCode(CountryName.CHI.toCode());
+            }
+            country.setServiceProvider(serviceProvider);
+            serviceProvider.getCountryList().add(country);
+            serviceProviderRepository1.save(serviceProvider);
+
+            return serviceProvider;
         }
-        throw new Exception("Country not found");
+        else
+            throw new Exception("Country not found");
     }
 }
