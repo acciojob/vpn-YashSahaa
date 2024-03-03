@@ -55,7 +55,7 @@ public class AdminServiceImpl implements AdminService {
         for(CountryName name :CountryName.values()){
             if(Name.equals(name)){
                 Country country = new Country();
-                country.setCountryName(countryName);
+                country.setCountryName(CountryName.valueOf(countryName));
                 country.setServiceProvider(serviceProvider);
                 country.setCode(name.toCode());
                 serviceProvider.getCountryList().add(country);

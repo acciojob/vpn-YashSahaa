@@ -1,6 +1,7 @@
 package com.driver.services.impl;
 
 import com.driver.model.Country;
+import com.driver.model.CountryName;
 import com.driver.model.ServiceProvider;
 import com.driver.model.User;
 import com.driver.repository.CountryRepository;
@@ -27,7 +28,7 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
-        Country country = countryRepository3.findByCountryName(countryName);
+        Country country = countryRepository3.findByCountryName(CountryName.valueOf(countryName));
         user.setOriginalIp(country.getCode()+"."+user.getId());
         userRepository3.save(user);
         return user;

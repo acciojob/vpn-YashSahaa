@@ -24,7 +24,7 @@ public class ConnectionServiceImpl implements ConnectionService {
     public User connect(int userId, String countryName) throws Exception{
         User user = userRepository2.findById(userId).get();
         if(user.getConnected()) throw new Exception("Already connected");
-        else if(user.getOriginalCountry().equals(countryName)) return user;
+        else if(user.getOriginalCountry().getCountryName().equals(CountryName.valueOf(countryName))) return user;
         else if(user.getServiceProviderList()==null ) throw new Exception("Unable to connect");
         List<ServiceProvider> serviceProviders = user.getServiceProviderList();
         int serviceProviderId= Integer.MAX_VALUE;
@@ -34,7 +34,7 @@ public class ConnectionServiceImpl implements ConnectionService {
         for (ServiceProvider serviceProvider:serviceProviders){
             List<Country> countries = serviceProvider.getCountryList();
             for(Country country : countries){
-                if(country.getCountryName().equals(countryName)){
+                if(country.getCountryName().equals(CountryName.valueOf(countryName))){
                     count=true;
                     if(serviceProvider.getId()<serviceProviderId){
                         serviceProviderId = serviceProvider.getId();
@@ -87,7 +87,7 @@ public class ConnectionServiceImpl implements ConnectionService {
         if(currCountry==null) throw new Exception("Cannot establish communication");
         else if(sender.getOriginalCountry().equals(currCountry)) return sender;
         else{
-            return connect(senderId, currCountry.getCountryName());
+            return connect(senderId, currCountry.getCountryName().toString());
         }
     }
 }
