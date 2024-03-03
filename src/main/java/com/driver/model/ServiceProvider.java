@@ -24,6 +24,9 @@ public class ServiceProvider {
     @OneToMany(mappedBy = "serviceProvider", cascade = CascadeType.ALL)
     List<Connection> connectionList;
 
+    public ServiceProvider() {
+    }
+
     public int getId() {
         return id;
     }
